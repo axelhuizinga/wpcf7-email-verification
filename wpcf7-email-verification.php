@@ -71,11 +71,13 @@ function wpcf7ev_verify_email_address( $wpcf7_form, &$abort, $submission)
         }
     }
 
-    // send an email to the recipient to let them know verification is pending
-    wp_mail($mail_fields['recipient'], 'Form notice',
+	if(null != $wpcf7_form->prop('notice')){
+    	// send an email to the recipient to let them know verification is pending
+    	wp_mail($mail_fields['recipient'], 'Form notice',
             "Hi,\n\nYou've had a form submission on " . get_option('blogname') . " from " .
             $senders_email_address .
             ".\n\nWe are waiting for them to confirm their email address.");
+	}
 
     //create hash code for verification key
     $random_hash = substr(md5(uniqid(rand(), true)), -16, 16);
